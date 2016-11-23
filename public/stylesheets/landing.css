@@ -61,3 +61,20 @@ body {
 .no-cssanimations .cb-slideshow li {
 	opacity: 1;
 }
+
+
+.landing-text {
+	color: #fff;
+}
+
+.landing-text h1{
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.landing-text a {
+	color: #fff;
+}
+
+.vertical-center-col {
+  margin-top: 30vh;
+}

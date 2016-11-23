@@ -1,3 +1,7 @@
+body{
+    background: url(/images/bg.jpeg) no-repeat center center fixed;
+}
+
 .thumbnail img{
     width: 100%;
 }
