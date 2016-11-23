@@ -20,17 +20,24 @@ router.get("/", function(req, res){
 
 // CREATE --- Add a new campground to the DB
 router.post("/", middleware.isLoggedIn, function(req, res){
-    var name = req.body.name;
-    var image = req.body.image;
-    var description = req.body.description;
-    var mapPlace = req.body.mapPlace;
-    // console.log("MAP PLACE =|" + mapPlace);
-    var author = {
+    if (!req.body.campground.legal){
+        req.body.campground.legal = "false";
+    }
+    if (!req.body.campground.free){
+        req.body.campground.free = "false";
+    }
+    if (!req.body.campground.shower){
+        req.body.campground.shower = "false";
+    }
+    if (!req.body.campground.fire){
+        req.body.campground.fire = "false";
+    }
+    req.body.campground.author = {
         id: req.user._id,
         username: req.user.username
     };
-    var newCampground = {name: name, image: image, description: description, mapPlace: mapPlace, author: author};
-   Campground.create(newCampground, function(err, newlyCreated){
+    
+   Campground.create(req.body.campground, function(err, newlyCreated){
        if (err){
            console.log(err);
        }else{

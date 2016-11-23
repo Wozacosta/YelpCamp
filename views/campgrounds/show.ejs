@@ -4,17 +4,17 @@
         
         <div class="col-md-8">
             <div class="thumbnail">
+                <div id="showpage_top">
+                <h4 id="showpage_name"><a href="#"><%= campground.name %></a></h4>
+                    <% if(campground.author.username){ %>
+                    <em id="author_name">by <%= campground.author.username %></em>
+                    <% } %>
+                </div>
                 <img class="img-responsive" src="<%= campground.image %>">
                 <div class="caption-full">
-                    <h4 class="pull-right"><i class="fa fa-usd" aria-hidden="true"></i></h4>
-                    <h4 class="pull-right"><i class="fa fa-shower" aria-hidden="true"></i></h4>
-                    <h4 class="pull-right"><i class="fa fa-gavel" aria-hidden="true"></i></h4>
-                    <h4><a href="#"><%= campground.name %></a>
-                    <% if(campground.author.username){ %>
-                     - <em>submitted by <%= campground.author.username %></em>
-                    <% } %>
-                    </h4>
-                    <p><%= campground.description %></p>
+                    
+                    
+                    <p id="showpage_description"><%= campground.description %></p>
                     <% if(currentUser && campground.author.id.equals(currentUser._id)) { %>
                         <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
                         <form id="delete" action="/campgrounds/<%= campground._id %>/?_method=DELETE" method="POST">

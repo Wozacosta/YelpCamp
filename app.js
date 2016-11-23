@@ -25,6 +25,10 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
+app.use(function(req, res, next){
+   console.log(req.get("Referrer"));
+   next();
+});
 // seedDB();
 
 

@@ -89,3 +89,15 @@ body{
 .checkbox i{
   width: 20px; /* Align label text */
 }
+#showpage_name{
+    margin-bottom: 0px;
+}
+
+#author_name{
+    font-size: 1rem;
+}
+
+#showpage_top{
+    padding-left: 17px;
+    padding-bottom:17px;
+}

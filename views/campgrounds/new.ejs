@@ -5,16 +5,30 @@
     <div style="width: 30%; margin: 30px auto;">
         <form action="/campgrounds" method="POST">
             <div class="form-group">
-                <input class="form-control" type="text" placeholder="Camp name" name="name">
+                <input class="form-control" type="text" placeholder="Camp name" name="campground[name]">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" placeholder="image url" name="image">
+                <input class="form-control" type="text" placeholder="image url" name="campground[image]">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" placeholder="description" name="description">
+                <input class="form-control" type="text" placeholder="description" name="campground[description]">
             </div>
             <div class="form-group">
-                    <input id="searchTextField" class="form-control" type="text" name="mapPlace" size="50">
+                    <input id="searchTextField" class="form-control" type="text" name="campground[mapPlace]" size="50">
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label><input type="checkbox" id="legal" name="campground[legal]" value="true"><i class="fa fa-gavel" aria-hidden="true"></i>   Legal to camp there</label><br>
+                </div>
+                <div class="checkbox">
+                        <label><input type="checkbox" id="free" name="campground[free]" value="true"><i class="fa fa-usd" aria-hidden="true"></i>   Free to camp there</label><br>
+                </div>
+                <div class="checkbox">
+                        <label><input type="checkbox" id="shower" name="campground[shower]" value="true"><i class="fa fa-shower" aria-hidden="true"></i>   Shower amenities available</label><br>
+                </div>
+                <div class="checkbox">
+                        <label><input type="checkbox" id="fire" name="campground[fire]" value="true"><i class="fa fa-fire" aria-hidden="true"></i>  Campfires legal</label><br>
+                </div>
             </div>
             <div class="form-group">
                  <button class="btn btn-primary btn-large btn-block">Submit !</button>
