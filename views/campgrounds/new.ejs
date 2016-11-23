@@ -14,6 +14,9 @@
                 <input class="form-control" type="text" placeholder="description" name="description">
             </div>
             <div class="form-group">
+                    <input id="searchTextField" class="form-control" type="text" name="mapPlace" size="50">
+            </div>
+            <div class="form-group">
                  <button class="btn btn-primary btn-large btn-block">Submit !</button>
             </div>
         </form>
@@ -22,4 +25,12 @@
     
     </div>
 </div>
+<script>
+    function initialize() {
+    
+    var input = document.getElementById('searchTextField');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    }
+    google.maps.event.addDomListener(window, 'load', initialize)
+</script>
 <% include ../partials/footer %>

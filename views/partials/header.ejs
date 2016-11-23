@@ -9,9 +9,10 @@
         <% } %>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
     </head>
     <body>
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -31,7 +32,7 @@
                             <li><a href="/login">Login</a></li>
                             <li><a href="/register">Sign Up</a></li>
                         <% }else{ %>
-                            <li class="navbar-text">Currently signed in as <%= currentUser.username %></li>
+                            <li class="navbar-text"><span class="glyphicon glyphicon-user"></span> <%= currentUser.username %></li>
                             <li><a href="/logout">Logout</a></li>
                         <% } %>
                     </ul>
