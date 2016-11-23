@@ -23,7 +23,11 @@
                     <a href="/campgrounds/<%= campground._id %>"  class="btn btn-primary btn-index">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     </a>
-                    <img class="index_image" src="<%= campground.image %>">
+                    <% if (campground.image.search("imgur") > 0){ %>
+                    <img class="index_image" src="<%= (campground.image.replace(/\.[^/.]+$/,"") + 'm.' + campground.image.replace(/^.*\./, '')) %>">
+                    <% } else { %>
+                        <img class="index_image" src="<%= campground.image %>">
+                    <% } %>
                     <div class="index_caption">
                          <%= campground.name %> 
                     </div>
