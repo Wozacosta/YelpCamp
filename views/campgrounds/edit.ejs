@@ -17,6 +17,20 @@
                     <input id="searchTextField" class="form-control" type="text" name="campground[mapPlace]" size="50" value="<%= campground.mapPlace %>">
             </div>
             <div class="form-group">
+                <div class="checkbox sss">
+                    <label><input type="checkbox" id="legal" name="campground[legal]" value="true" <% if(campground.legal){%>checked<%}%> ><i class="fa fa-gavel" aria-hidden="true"></i>   Legal to camp there</label><br>
+                </div>
+                <div class="checkbox">
+                        <label><input type="checkbox" id="free" name="campground[free]" value="true" <% if(campground.free){%>checked<%}%>><i class="fa fa-usd" aria-hidden="true"></i>   Free to camp there</label><br>
+                </div>
+                <div class="checkbox">
+                        <label><input type="checkbox" id="shower" name="campground[shower]" value="true" <% if(campground.shower){%>checked<%}%>><i class="fa fa-shower" aria-hidden="true"></i>   Shower amenities available</label><br>
+                </div>
+                <div class="checkbox">
+                        <label><input type="checkbox" id="fire" name="campground[fire]" value="true" <% if(campground.fire){%>checked<%}%>><i class="fa fa-fire" aria-hidden="true"></i>  Campfires legal</label><br>
+                </div>
+            </div>
+            <div class="form-group">
                  <button class="btn btn-primary btn-large btn-block">Submit !</button>
             </div>
         </form>

@@ -66,8 +66,22 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res){
 
 // UPDATE CAMPGROUND ROUTE
 router.put("/:id/edit", middleware.checkCampgroundOwnership, function(req, res){
-   Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCampground){
+    if (!req.body.campground.legal){
+        req.body.campground.legal = "false";
+    }
+    if (!req.body.campground.free){
+        req.body.campground.free = "false";
+    }
+    if (!req.body.campground.shower){
+        req.body.campground.shower = "false";
+    }
+    if (!req.body.campground.fire){
+        req.body.campground.fire = "false";
+    }
+   Campground.findByIdAndUpdate(req.params.id, req.body.campground, {upsert: true, new: true}, function(err, updatedCampground){
                 if (err){
+                    console.log("Error updating");
+                    console.log(err);
                     res.redirect("/campgrounds");
                 }else{
                     res.redirect("/campgrounds/" + req.params.id);

@@ -6,6 +6,10 @@ var campgroundSchema = new mongoose.Schema({
    image: String,
    description: String,
    mapPlace: String,
+   free: {type: Boolean, default: "false"},
+   shower: {type: Boolean, default: "false"},
+   legal:{type: Boolean, default: "false"},
+   fire: {type: Boolean, default: "false"},
    author:{
      id:{
         type: mongoose.Schema.Types.ObjectId,

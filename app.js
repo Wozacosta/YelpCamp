@@ -9,7 +9,8 @@ var express     = require("express"),
     Campground  = require("./models/campground"),
     Comment     = require("./models/comment"),
     User        = require("./models/user"),
-    seedDB      = require("./seeds");
+    seedDB      = require("./seeds"),
+    cookieParser = require("cookie-parser");
     
 
 //requiring routes
@@ -26,6 +27,10 @@ app.use(methodOverride("_method"));
 app.use(flash());
 // seedDB();
 
+
+//COOKIES
+app.use(cookieParser()); // have to use before session
+
 //PASSPORT CONFIGURATION
 app.use(require("express-session")({
     secret: "Rusty wins so he's not cute",
@@ -38,6 +43,7 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
 
 //MIDDLEWARE
 app.use(function(req, res, next){
