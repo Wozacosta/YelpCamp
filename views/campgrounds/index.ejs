@@ -24,7 +24,7 @@
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     </a>
                     <% if (campground.image.search("imgur") > 0){ %>
-                    <img class="index_image" src="<%= (campground.image.replace(/\.[^/.]+$/,"") + 'm.' + campground.image.replace(/^.*\./, '')) %>">
+                    <img class="index_image" src="<%= (campground.image.replace(/\.[^/.]+$/,"") + 'l.' + campground.image.replace(/^.*\./, '')) %>">
                     <% } else { %>
                         <img class="index_image" src="<%= campground.image %>">
                     <% } %>
