@@ -17,44 +17,67 @@
                     <p id="showpage_description"><%= campground.description %></p>
                     <% if(currentUser && campground.author.id.equals(currentUser._id)) { %>
                         <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
-                        <form id="delete" action="/campgrounds/<%= campground._id %>/?_method=DELETE" method="POST">
+                        <form class="delete" action="/campgrounds/<%= campground._id %>/?_method=DELETE" method="POST">
                             <button class="btn btn-xs btn-danger">Delete</button>
                         </form>
                     <% } %>
                 </div>
             </div>
-            <div class="well">
-                <div class="text-right">
-                   <a class="btn btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add a new comment</a>   
-                </div>
-                <hr>
+            <div class="well" id="commentDivs">
+                <!--<div class="text-right">-->
+                <!--   <a class="btn btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add a new comment</a>   -->
+                <!--</div>-->
+                <!--<hr>-->
                 <% campground.comments.forEach(function(comment){%>
-                    <div class="row">
+                    <div class="row commentDiv" >
                         <div class="col-md-12">
                             <strong><%= comment.author.username %></strong>
-                            <span class="pull-right">10 days ago</span>
+                            <span class="pull-right commentDate">10 days ago</span>
                             <p><%= comment.text %></p>
                              <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
                                 <a class="btn btn-xs btn-warning" 
                                     href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">
                                     Edit
                                 </a>
-                                <form id="delete" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                <form class="delete" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
                                     <input type="submit" class="btn btn-xs btn-danger" value="Delete">
                                 </form>
                             <% } %>
                         </div>
                     </div>
                  <% }); %>
-            </div>
-        </div>
+                 
+                 
+                  <!--IN ORDER FOR AJAX TO EASILY CLONENODE() A COMMENT DIV -->
+                <div class="row commentDiv" id="modelComment" style="display:none">
+                        <div class="col-md-12">
+                            <strong></strong>
+                            <span class="pull-right commentDate"></span>
+                            <p></p>
+                             <a class="btn btn-xs btn-warning" >Edit</a>
+                            <form class="delete" method="POST">
+                                    <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                            </form>
+                        </div>
+                    </div>
+                <!--------------------------------------------------------------------->
+                
+                
+                 <!--HANDLING AJAX COMMENT-->
+                 <!--XHR Advanced features for form are worth checking out to update this code, ocr-->
+                 <form  id="commentFormDiv">
+                    <div class="form-group">
+                        <input class="form-control" id="commentForm" type="text" placeholder="text" name="text">
+                    </div>
+                    <div class="form-group">
+                         <button class="btn btn-primary btn-large btn-block" id="commentPost">Add a new comment</button>
+                    </div>
+                </form>
+            </div> <!-- id=commentDivs -->
+        </div> <!-- content main div -->
         <div class="col-md-4">
             <p class="lead" id="show_name"><%= campground.name %></p>
-            <!--<div class="list-group">-->
-            <!--    <li  class="list-group-item active">Description</li>-->
-            <!--    <li  class="list-group-item">Location</li>-->
-            <!--    <li  class="list-group-item">Reviews</li>-->
-            <!--</div>-->
+
             <% if(campground.mapPlace){ %>
                <div style="width:500px;max-width:100%;overflow:hidden;height:500px;color:red;">
                     <div id="gmap_display" style="height:100%; width:100%;max-width:100%;">
@@ -99,4 +122,58 @@
 
 
 </div>
+<script>
+(function(){
+    var commentBtn = document.querySelector("#commentPost");
+     var commentForm = document.querySelector("#commentForm");
+     var commentDivs = document.querySelector("#commentDivs");
+     
+     $("#commentFormDiv").submit(function(event){
+         event.preventDefault();
+         var text = encodeURIComponent(commentForm.value);
+         var xhr = new XMLHttpRequest();
+         xhr.open("POST", "/campgrounds/<%= campground._id %>/comments");
+         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        
+         xhr.send("text=" + text);
+
+         
+         xhr.addEventListener("readystatechange", function(){
+             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+                 // Transform JSONSTRING responseText to Javascript Object
+                 var response = JSON.parse(xhr.responseText);
+                 console.log(response);
+                 // Get text values from the response
+                 var newUsername = response.author.username;
+                 var newDate = "Just posted";
+                 var newText = response.text;
+                 var commentElementText = [newUsername, newDate, newText]; // to loop and assign over
+                 
+                 var commentDivs = document.querySelector("#commentDivs"); // main comment div containers
+                 // newDiv is cloned from the top comment - or from a fallback comment (hidden with style="display:none")
+                 var newDiv = document.querySelector("#modelComment").cloneNode(true); // new comment div
+                 newDiv.setAttribute("style", ""); 
+                 
+                 // look over three element siblings that contains the comment datas and assign data
+                 var commentElement = newDiv.firstElementChild.firstElementChild; 
+                 for (var i = 0; i < 3;i++){
+                     commentElement.innerHTML = commentElementText[i];
+                     commentElement = commentElement.nextElementSibling;
+                 }
+                 // we're now on the Edit button, assign the correct href
+                 commentElement.setAttribute("href", "/campgrounds/<%= campground._id %>/comments/" + response._id + "/edit");
+                 // we're moving to the delete button
+                 commentElement = commentElement.nextElementSibling;
+                 commentElement.setAttribute("action", "/campgrounds/<%= campground._id %>/comments/"+ response._id + "?_method=DELETE");
+                 // insert new comment at the end -before the new comment form-
+                 commentDivs.insertBefore(newDiv, document.querySelector("#commentFormDiv"));
+                 document.querySelector("#commentFormDiv").reset(); //reset form, clear text input value
+             }else if(xhr.readyState === XMLHttpRequest.DONE && xhr.status != 200){ // ERROR HANDLING
+                 alert("Une erreur est survenue !\nCode :" + xhr.status + "\nText : " + xhr.statusText);
+             }
+         });
+     });
+     
+})();
+ </script>
 <% include ../partials/footer %>

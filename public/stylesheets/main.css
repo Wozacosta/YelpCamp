@@ -78,7 +78,7 @@ body{
     padding: 9px;
 }
 
-#delete{
+.delete{
     display: inline;
 }
 
@@ -100,4 +100,13 @@ body{
 #showpage_top{
     padding-left: 17px;
     padding-bottom:17px;
+}
+
+#commentFormDiv{
+    margin-top: 5px;
+}
+
+.commentDate{
+    font-size: 0.9em;
+    font-style: italic;
 }
