@@ -1,2 +1,2 @@
 # YelpCamp
-- [] - Implement limited file upload 
+- [ ] - Implement limited file upload 
